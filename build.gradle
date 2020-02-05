@@ -1,0 +1,42 @@
+buildscript {
+    ext {
+        karateVersion = "0.9.4"
+        junitVersion = "4.12"
+        testRailClientVersion = "2.0.1"
+        gsonVersion = "2.8.6"
+        jaxbVersion = "2.3.1"
+        log4jVersion = "1.2.17"
+        jasyptVersion = "1.9.3"
+    }
+}
+plugins {
+    id 'java'
+}
+
+group 'au.com.australiansuper.mpv5.qe'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.11
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile group: 'junit', name: 'junit', version: "${junitVersion}"
+    compile group: 'com.intuit.karate', name: 'karate-core', version: "${karateVersion}"
+    compile group: 'com.intuit.karate', name: 'karate-apache', version: "${karateVersion}"
+    compile group: 'com.codepine.api', name: 'testrail-api-java-client', version: "${testRailClientVersion}"
+    compile group: 'com.google.code.gson', name: 'gson', version: "${gsonVersion}"
+    compile group: 'javax.xml.bind', name: 'jaxb-api', version: "${jaxbVersion}"
+    compile group: 'log4j', name: 'log4j', version: "${log4jVersion}"
+    compile group: 'org.jasypt', name: 'jasypt', version: "${jasyptVersion}"
+}
+
+test {
+    testLogging.showStandardStreams = true
+}
+
+clean {
+    delete 'out'
+}
