@@ -23,13 +23,13 @@ import static junit.framework.TestCase.assertEquals;
 public class TestRunner {
     @Test
     public void testParallel() {
-        Results results = Runner.parallel(getClass(), 5, "out/surefire-reports");
+        Results results = Runner.parallel(getClass(), 5, Constants.REPORT_DIR);
         assertEquals(results.getErrorMessages(), 0, results.getFailCount());
     }
 
     @After
     public void updateTestRail() throws ProjectNotFoundException, NoTestRailUrlException, IOException {
-        if (System.getenv(Constants.UPDATE_TESTRAIL)!=null && System.getenv(Constants.UPDATE_TESTRAIL).equalsIgnoreCase("yes")) {
+        if (System.getProperty(Constants.UPDATE_TESTRAIL) != null && System.getProperty(Constants.UPDATE_TESTRAIL).equalsIgnoreCase("yes")) {
             TestRailIntegrationImp imp = new TestRailIntegrationImp();
             imp.execute();
         }

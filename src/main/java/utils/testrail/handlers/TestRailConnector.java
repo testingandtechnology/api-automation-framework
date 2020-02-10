@@ -8,6 +8,7 @@ import utils.testrail.exceptions.ProjectNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Thanh Le
@@ -50,6 +51,24 @@ public class TestRailConnector {
 
     public Run createTestRun(Project project, String testRunName, Integer milestoneId) {
         return testRail.runs().add(project.getId(), new Run().setName(testRunName).setMilestoneId(milestoneId).setIncludeAll(false)).execute();
+    }
+
+    public Run createTestRun(Project project, String testRunName, Map<String, Object> options) {
+        Run run = new Run();
+        run.setName(testRunName);
+        run.setIncludeAll(false);
+        Integer milestoneId = (Integer) options.get("milestoneId");
+        Integer suiteId = (Integer) options.get("suiteId");
+        if (milestoneId != null) {
+            run.setMilestoneId(milestoneId);
+        }
+
+        if (suiteId != null) {
+            run.setSuiteId(suiteId);
+        }
+
+        // add more option here if need
+        return testRail.runs().add(project.getId(), run).execute();
     }
 
     public void addTestResult(Run testRun, Case testCase, TestResults result) {

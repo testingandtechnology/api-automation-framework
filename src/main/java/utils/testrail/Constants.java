@@ -14,4 +14,5 @@ public class Constants {
     public static final String BUILD_NUMBER = "Build.BuildNumber";
     public static final String CONFIG_FILE = "config.properties";
     public static final String UPDATE_TESTRAIL = "testrail.update";
+    public static final String REPORT_DIR = "out/surefire-reports";
 }

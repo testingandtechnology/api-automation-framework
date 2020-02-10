@@ -1,13 +1,17 @@
 package utils.testrail.report;
 
 import com.google.gson.Gson;
-import org.junit.Test;
+import com.google.gson.GsonBuilder;
+import org.apache.log4j.Logger;
+import utils.testrail.Constants;
 import utils.testrail.report.model.Element;
 import utils.testrail.report.model.JsonReport;
 import utils.testrail.report.model.Step;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -19,6 +23,8 @@ import java.util.List;
  * Created: 04 Dec 2019
  */
 public class ReportProcessor {
+    private Gson gson = new GsonBuilder().create();
+    private Logger logger = Logger.getLogger(this.getClass());
 
     public HashMap<String, HashMap<String, Object>> analyseReports() {
         List<JsonReport[]> reports = getReports();
@@ -34,13 +40,19 @@ public class ReportProcessor {
                 }
             }
         }
+        try {
+            Writer writer = new FileWriter(Constants.REPORT_DIR + "/reports.json");
+            gson.toJson(results, writer);
+            writer.close();
+        } catch (IOException e) {
+            logger.error(e.getMessage());
+        }
         return results;
     }
 
     private List<JsonReport[]> getReports() {
         List<String> files = getAllJsons();
         List<JsonReport[]> allReports = new ArrayList<>();
-        Gson gson = new Gson();
         for (String file : files) {
             JsonReport[] reports = gson.fromJson(readFile(file), JsonReport[].class);
             allReports.add(reports);
@@ -82,7 +94,7 @@ public class ReportProcessor {
 
     private List<String> getAllJsons() {
         List<String> jsonFiles = new ArrayList<>();
-        File folder = new File("out/surefire-reports");
+        File folder = new File(Constants.REPORT_DIR);
         File[] files = folder.listFiles();
         for (File file : files) {
             if (file.getName().endsWith(".json")) {
@@ -97,7 +109,7 @@ public class ReportProcessor {
             return Files.readString(Paths.get(path));
 
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
         return null;
     }
