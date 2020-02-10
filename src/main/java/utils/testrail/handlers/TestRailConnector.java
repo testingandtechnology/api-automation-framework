@@ -85,8 +85,8 @@ public class TestRailConnector {
         this.testRail.results().addForCase(testRun.getId(), testCase.getId(), result, getResultFields()).execute();
     }
 
-    public void addTestResult(Run testRun, Case testCase, String result) {
-        this.testRail.results().addForCase(testRun.getId(), testCase.getId(), new Result().setStatusId(getStatusId(result)), getResultFields()).execute();
+    public void addTestResult(Run testRun, Case testCase, String result, String comment) {
+        this.testRail.results().addForCase(testRun.getId(), testCase.getId(), new Result().setStatusId(getStatusId(result)).setComment(comment), getResultFields()).execute();
     }
 
     public void addTestCaseToTestRun(Run testRun, Integer testCaseId) {

@@ -77,7 +77,7 @@ public class TestRailIntegrationImp {
 
             Case testCase = testRailConnector.getTestCaseById(project, Integer.parseInt(testCaseId));
             testRailConnector.addTestCaseToTestRun(run, Integer.parseInt(testCaseId));
-            testRailConnector.addTestResult(run, testCase, status);
+            testRailConnector.addTestResult(run, testCase, status, values);
         }
     }
 
